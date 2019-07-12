@@ -7,12 +7,16 @@ def get_names(link):
 	source = r.text
 	soup = BeautifulSoup(source, 'html.parser')
 
-	# Checking if we're on the last page of results or not
-	for i in soup.findAll("a", "pagination__named-link"):
-		if i.text == "Last »":
-			notLast = True
-		else:
-			notLast = False
+	# Check if results is only 1 page
+	if len(soup.findAll("a", "pagination__named-link")) == 0:
+		notLast = False
+	else:
+		# Checking if we're on the last page of results or not
+		for i in soup.findAll("a", "pagination__named-link"):
+			if i.text == "Last »":
+				notLast = True
+			else:
+				notLast = False
 
 	# If we're not on the last page, print names and go to next page
 	if notLast == True:
